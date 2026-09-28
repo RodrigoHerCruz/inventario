@@ -67,7 +67,7 @@ $estado = $_GET['estado'] ?? '';
 
             <?php if ($estado === 'cantidad_invalida'): ?>
                 <div class="mensaje error">
-                    La cantidad debe ser un número.
+                    La cantidad debe ser un número valido.
                 </div>
             <?php endif; ?>
 
@@ -86,6 +86,7 @@ $estado = $_GET['estado'] ?? '';
                         placeholder="Ejemplo: Café"
                         required
                     >
+
                 </div>
 
                 <div class="campo">
