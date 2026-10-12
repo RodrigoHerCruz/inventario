@@ -1,6 +1,17 @@
 <?php
 
 require_once __DIR__ . '/config/conexion.php';
+require_once __DIR__ . '/config/validaciones.php';
+
+$nombre = $_POST['nombre'] ?? '';
+$cantidad = $_POST['cantidad'] ?? '';
+
+$errorNombre = nombreVacio($nombre);
+
+if ($errorNombre !== '') {
+    header('Location: index.php?estado=nombre_invalido');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
@@ -12,6 +23,11 @@ $cantidad = $_POST['cantidad'] ?? '';
 
 if ($nombre === '' || $cantidad === '') {
     header('Location: index.php?estado=incompleto');
+    exit;
+}
+
+if ($cantidad <= 0) {
+    header('Location: index.php?estado=cantidad_invalida');
     exit;
 }
 
