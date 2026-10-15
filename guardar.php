@@ -1,17 +1,6 @@
 <?php
 
-require_once __DIR__ . '/config/conexion.php';
 require_once __DIR__ . '/config/validaciones.php';
-
-$nombre = $_POST['nombre'] ?? '';
-$cantidad = $_POST['cantidad'] ?? '';
-
-$errorNombre = nombreVacio($nombre);
-
-if ($errorNombre !== '') {
-    header('Location: index.php?estado=nombre_invalido');
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
@@ -21,20 +10,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nombre = trim($_POST['nombre'] ?? '');
 $cantidad = $_POST['cantidad'] ?? '';
 
-if ($nombre === '' || $cantidad === '') {
-    header('Location: index.php?estado=incompleto');
+if (!nombreVacio($nombre)) {
+    header('Location: index.php?estado=nombre_invalido');
     exit;
 }
 
-if ($cantidad <= 0) {
+if (!validarCantidadProducto($cantidad)) {
     header('Location: index.php?estado=cantidad_invalida');
     exit;
 }
 
-if (!is_numeric($cantidad)) {
-    header('Location: index.php?estado=cantidad_invalida');
-    exit;
-}
+require_once __DIR__ . '/config/conexion.php';
 
 $sentencia = $conexion->prepare(
     'INSERT INTO productos (nombre, cantidad)

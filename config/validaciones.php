@@ -1,25 +1,24 @@
 <?php
 
-function nombreVacio($nombre) 
+function nombreVacio($nombre): bool
 {
-    // $nombre = trim($nombre);
-
-    if ($nombre === ''){
+    if (!is_string($nombre)) {
         return false;
     }
 
-    if (mb_strlen($nombre) >= 3) {
-        return true;
-    }
+    $nombre = trim($nombre);
 
-    return true;
+    return mb_strlen($nombre) >= 3;
 }
 
-function validarCantidadProducto($cantidad)
+function validarCantidadProducto($cantidad): bool
 {
-    if ($cantidad <= 0) {
+    if (!is_int($cantidad) && !is_string($cantidad)) {
         return false;
     }
 
-    return true;
+    $cantidad = trim((string) $cantidad);
+    $cantidadEntera = filter_var($cantidad, FILTER_VALIDATE_INT);
+
+    return $cantidadEntera !== false && $cantidadEntera > 0;
 }
